@@ -12,5 +12,6 @@ def root():
 if __name__ == "__main__":
     import uvicorn
     port = int(os.environ.get("API_PORT", 8000))
-    uvicorn.run("App:webApi", host="127.0.0.1", port=port, reload=True)
+    host = os.environ.get("APP_HOST", "127.0.0.1")
+    uvicorn.run("App:webApi", host=host, port=port, reload=True)
 
