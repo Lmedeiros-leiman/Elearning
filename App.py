@@ -1,16 +1,20 @@
 import os
 
 import fastapi
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 
 webApi = fastapi.FastAPI()
-webApi.mount("/", StaticFiles(directory="./FrontEnd/pages/", html=True), name="static")
+webApi.mount("/assets", StaticFiles(directory="./FrontEnd/static/", html=True), name="static")
 
 @webApi.get("/api/")
 async def root():
     return {"message": "Hello World"}
 
+@webApi.get("/")
+async def servePage():
+    return FileResponse("./FrontEnd/static/index.html")
 
 if __name__ == "__main__":
     # starts the API server (to register the endpoints)
