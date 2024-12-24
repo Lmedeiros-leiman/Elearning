@@ -1,7 +1,7 @@
 #!/bin/bash
 
 pip install -r requirements.txt
-cd FrontEnd
+cd ./FrontEnd
 npm run build
 cd ../
 python App.py
