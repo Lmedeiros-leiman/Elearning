@@ -1,0 +1,42 @@
+name: Build and Deploy to Production
+
+on:
+  push:
+    branches: [ main ]  # Trigger on pushes to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install Dependencies and Build Frontend
+      run: |
+        cd FrontEnd
+        npm install
+        npm run build
+
+    - name: Push to Production Branch
+      run: |
+        # Fetch all branches, including production
+        git fetch origin
+        
+        # Create or switch to production branch
+        if git rev-parse --verify origin/production; then
+          git checkout production
+          git merge --ff-only main  # Fast-forward merge main into production
+        else
+          git checkout -b production
+        fi
+        
+        # Push production branch back to remote
+        git push origin production
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
