@@ -7,7 +7,7 @@ from fastapi.responses import HTMLResponse
 webApi = fastapi.FastAPI()
 webApi.mount("/", StaticFiles(directory="./FrontEnd/pages/", html=True), name="web")
 
-@webApi.get("/")
+@webApi.get("/api/")
 def root():
     return {"message": "Hello World"}
 
