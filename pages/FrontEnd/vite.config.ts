@@ -15,7 +15,7 @@ export default defineConfig({
   build: {
     outDir,
     copyPublicDir: true,
-    //emptyOutDir: true,
+    emptyOutDir: true,
     rollupOptions: {
       //
       //input: {
