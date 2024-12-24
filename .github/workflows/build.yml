@@ -40,6 +40,10 @@ jobs:
           working-directory: pages/FrontEnd
           run: npm run build
 
+        - name: Remove source code
+          run: |
+            rm -rf pages/FrontEnd
+
         - name: Deploy
           if: success()
           run: |
