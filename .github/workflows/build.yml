@@ -1,38 +1,38 @@
-name: Build and Deploy to Production
+name: Build and Deploy vite front end
 
 on:
-  push:
-    branches: [ main ]  # Trigger on pushes to the main branch
-
-permissions:
-    contents: write
+    push:
+        branches: [ main ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    build:
+        name: Compiling files
+        runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
+        steps:
+        # Step 1: Checkout the code
+        - name: Checkout repository
+          uses: actions/checkout@v3
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
+        - name: Setup Node.JS
+          uses: actions/setup-node@v3
+            
+        - name: Install dependencies]
+          working-directory: pages/FrontEnd
+          run: npm install
 
-    - name: Install Dependencies and Build Frontend
-      run: |
-        git fetch origin
-        cd ./pages/FrontEnd
-        npm install
-        npm run build
+        - name: Build
+          working-directory: pages/FrontEnd
+          run: npm run build
 
-    - name: Push to Production Branch
-      run: |
+        - name: Deploy
+          if: success()
+          run: |
+            git config --global user.name "GitHub Actions"
+            git config --global user.email "actions@github.com"
+            git add pages/build/*
+            git commit -m "Deploy Vite app to production branch"
+            git push origin HEAD:production
+            
+              
         
-        git checkout main
-        git branch -D production || true  # Delete local production branch if it exists
-        git checkout -b production
-        git push --force origin production
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
