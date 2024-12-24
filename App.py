@@ -2,7 +2,7 @@ import os
 
 import fastapi
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse
+
 
 webApi = fastapi.FastAPI()
 webApi.mount("/", StaticFiles(directory="./FrontEnd/pages/", html=True), name="static")
