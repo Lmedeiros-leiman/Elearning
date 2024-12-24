@@ -6,7 +6,7 @@ from fastapi.staticfiles import StaticFiles
 
 
 webApi = fastapi.FastAPI()
-webApi.mount("/assets", StaticFiles(directory="./FrontEnd/static/", html=True), name="static")
+webApi.mount("/assets", StaticFiles(directory="./pages/build", html=True), name="static")
 
 @webApi.get("/api/")
 async def root():
@@ -14,7 +14,7 @@ async def root():
 
 @webApi.get("/")
 async def servePage():
-    return FileResponse("./FrontEnd/static/index.html")
+    return FileResponse("./pages/build/index.html")
 
 if __name__ == "__main__":
     # starts the API server (to register the endpoints)

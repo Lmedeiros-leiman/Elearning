@@ -9,6 +9,7 @@ const publicDir = resolve(__dirname, "public")
 // https://vite.dev/config/
 export default defineConfig({
   root,
+  base: "/assets/",
   publicDir,
   plugins: [react()],
   build: {
