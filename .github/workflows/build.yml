@@ -30,7 +30,7 @@ jobs:
           run: |
             git config --global user.name "GitHub Actions"
             git config --global user.email "actions@github.com"
-            git add pages/build/*
+            git add pages/build/* -f
             git commit -m "Deploy Vite app to production branch"
             git push origin HEAD:production
             
