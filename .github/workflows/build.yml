@@ -61,7 +61,7 @@ jobs:
           run: |
             COMMIT_ID=${GITHUB_SHA}
             git add .
-            git rm -r pages/FrontEnd
+            #git rm -r pages/FrontEnd
             git add pages/build/* -f
             git commit -m "Deploy Vite app to production branch (Triggered by commit ${COMMIT_ID})"
             git push origin HEAD:production
