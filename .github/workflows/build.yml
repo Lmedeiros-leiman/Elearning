@@ -32,10 +32,15 @@ jobs:
           run: |
                 git config --global user.name "GitHub Actions"
                 git config --global user.email "actions@github.com"
+                
+                git fetch --all
+
                 # Checkout the production branch
                 git checkout production
+                
                 # Reset the production branch to match the current main branch
                 git reset --hard origin/main
+                
                 # Force push the current main state to production (overwriting it completely)
                 git push origin production --force
 
