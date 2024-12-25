@@ -30,22 +30,23 @@ jobs:
             git config --global user.name "GitHub Actions"
             git config --global user.email "actions@github.com"
             git fetch origin production
-        
-        - name: Pull the latest changes from main
+            git pull --rebase origin main                
+
+        - name: Install dependencies and build
+          working-directory: pages/FrontEnd
           run: |
-                git pull --rebase origin main
-
-        - name: Install dependencies
-          working-directory: pages/FrontEnd
-          run: npm install
-
-        - name: Build
-          working-directory: pages/FrontEnd
-          run: npm run build
+            npm install
+            npm run build
 
         - name: Remove source code
           run: |
             rm -rf pages/FrontEnd
+        
+        - name: Create production branch if it doesn't exist
+          run: |
+            git fetch origin
+            git branch -a | grep -q 'remotes/origin/production' || git branch production origin/main
+            git checkout production
 
         - name: Deploy
           if: success()
