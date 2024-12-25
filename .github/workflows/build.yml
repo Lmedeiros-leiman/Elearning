@@ -32,21 +32,12 @@ jobs:
           run: |
                 git config --global user.name "GitHub Actions"
                 git config --global user.email "actions@github.com"
-                # Fetch production branch
-                git fetch origin production
-                # Rebase main onto production (to ensure we have the latest main changes on production)
+                # Checkout the production branch
                 git checkout production
-                git pull --rebase origin main
-
-                # Merge main into production with auto conflict resolution (favoring main's changes)
-                git merge origin/main -X theirs -m "Merging main into production"
-
-                # If merge conflicts occur, abort the merge
-                if [ $? -ne 0 ]; then
-                    echo "Merge conflict encountered, aborting merge."
-                    git merge --abort
-                    exit 1
-                fi
+                # Reset the production branch to match the current main branch
+                git reset --hard origin/main
+                # Force push the current main state to production (overwriting it completely)
+                git push origin production --force
 
         - name: Install dependencies and build
           working-directory: pages/FrontEnd
