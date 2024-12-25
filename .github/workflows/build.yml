@@ -36,7 +36,7 @@ jobs:
                 git fetch origin main
 
                 # Checkout the production branch
-                git checkout production
+                git checkout -b production
                 
                 # Reset the production branch to match the current main branch
                 git reset --hard origin/main
