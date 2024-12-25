@@ -39,7 +39,7 @@ jobs:
                 git pull --rebase origin main  # Ensure the latest main changes are on production
 
                 # Merge main into production (automatically resolving some conflicts)
-                git merge origin/main -m "Merging main into production"
+                git merge origin/main -X theirs -m "Merging main into production"
                 # In case of merge conflicts, use git merge --abort or handle conflicts automatically
                 if [ $? -ne 0 ]; then
                 git merge --abort  # Abort the merge if there are conflicts
