@@ -24,6 +24,12 @@ jobs:
 
         - name: Setup Node.JS
           uses: actions/setup-node@v3
+
+        - name: Create production branch if it doesn't exist
+          run: |
+            git fetch origin
+            git branch -a | grep -q 'remotes/origin/production' || git branch production origin/main
+            git checkout production
         
         - name: Fetch and merge production branch
           run: |
@@ -42,11 +48,7 @@ jobs:
           run: |
             rm -rf pages/FrontEnd
         
-        - name: Create production branch if it doesn't exist
-          run: |
-            git fetch origin
-            git branch -a | grep -q 'remotes/origin/production' || git branch production origin/main
-            git checkout production
+        
 
         - name: Deploy
           if: success()
