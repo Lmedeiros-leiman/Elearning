@@ -1,13 +1,11 @@
 import os
-import fastapi
+from fastapi import FastAPI, Header
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
-
-
-
-WebServer = fastapi.FastAPI()
+#
+WebServer = FastAPI()
 WebServer.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -19,12 +17,10 @@ WebServer.add_middleware(
 #
 # API routes
 #
-@WebServer.get("/api/")
-async def ApiRoute():
+import utils.Auth as Auth
 
-    return {"message": "Hello World"}
-    pass
 
+Auth.createRoutes(WebServer)
 
 
 #
@@ -36,13 +32,18 @@ WebServer.mount("/assets", StaticFiles(directory="./pages/build", html=True), na
 @WebServer.get("/")
 async def MainPage():
 
-
     return FileResponse("./pages/build/index.html")
 
-@WebServer.get("/auth")
-async def AuthPage():
+@WebServer.post("/api/test")
+async def NewPost():
+    
+    return {
+        "message": "Hello World",
+        "head": (Header())
+        }
 
-    return FileResponse("./pages/build/auth/index.html")
+
+
 
 
 # starts the local server
